@@ -62,16 +62,17 @@ Note the mergeSortArray method is being used here.
 
 * Create a LinkedList
   ```java
-        LinkedList<Car> carList = new LinkedList<>();
-        carList.add(new Car("Honda", 2010));
-        carList.add(new Car("Tesla", 2020));
-        carList.add(new Car("Cadillac", 2015));
-        carList.add(new Car("Alfa", 2008));      
+        LinkedList<Integer> integerList = new LinkedList();
+        integerList.add(10);
+        integerList.add(3);
+        integerList.add(5);
+        integerList.add(1);
+        integerList.add(7);    
   ```
 Then after the list is created you can use the Utils class and instance of merge sort to sort the array.
   ```java
-     ms.setComparator(Util.doubleComparator());
-     ms.mergeSortList(doubles, doubles.length);
+     ms.setComparator(Util.integerComparator());
+     ms.mergeSortList(integerList, intergerList.length);
   ```
 Note the mergeSortList method is being used here.
 
@@ -90,8 +91,8 @@ Note the mergeSortList method is being used here.
 If you want to sort both its simple. Just set the comparator for the first case and call the sort method. Then change the comparator and call it again. Make sure
 you are calling the correct method for a list or array.
   ```java
-        ms.setComparator(Util.carYearComparator());
-        ms.mergeSortList(carList);
+        ms.setComparator(Util.integerComparator());
+        ms.mergeSortList(integerList);
 
         carList.printList();
         
@@ -148,7 +149,11 @@ In order for this to work correctly with MergeSort you need to do two things.
     public static Comparator<Car> carTypeComparator() {
         return Car::compareByType;
     }
-}
+  }
+  ```
+* Pass it to MergeSort's set comparator
+  ```java
+  ms.setComparator(Util.carYearComparator);
   ```
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
