@@ -1,6 +1,5 @@
 public class LinkedList<T> {
-    private Node<T> head = null;
-    private int length = 0;
+    public Node<T> head = null;
 
     public void add(T data) {
         //create new node with data
@@ -19,7 +18,6 @@ public class LinkedList<T> {
             //insert node
             last.next = new_node;
         }
-        this.length++;
     }
 
     public void push(T data) {
@@ -75,7 +73,7 @@ public class LinkedList<T> {
     }
 
     public void printList() {
-        Node<T> currentNode = this.head;
+        Node<T> currentNode = head;
         System.out.println("Linked List:");
 
         while (currentNode != null) {
@@ -87,4 +85,39 @@ public class LinkedList<T> {
             currentNode = currentNode.next;
         }
     }
+
+    public Node<T> getMiddle(Node<T> head)
+    {
+        if (head == null)
+            return head;
+
+        Node<T> slow = head, fast = head;
+
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+
+    public Node<T> getNodeAtIndex(int index) {
+        Node<T> currentNode = head;
+        int i = 0;
+        while (i < index) {
+            currentNode = currentNode.next;
+            i++;
+        }
+        return currentNode;
+    }
+
+    public LinkedList<T> copyRange(int start, int end) {
+        LinkedList<T> temp = new LinkedList<>();
+        while (start <= end) {
+            Node<T> currentNode = getNodeAtIndex(start);
+            temp.add(currentNode.data);
+            start++;
+        }
+        return temp;
+    }
+
 }

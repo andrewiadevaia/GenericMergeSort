@@ -1,8 +1,52 @@
 import java.util.Comparator;
 
-public class MergeSort {
+public class MergeSort<T> {
 
-    public static <T> void mergeSortArray(T[] array, int n, Comparator<T> comparator) {
+    private Comparator<T> comparator;
+
+    public <T> void mergeSortList(LinkedList<T> list, Comparator<T> comparator) {
+        list.head = mergeSortNodeHandler(list, list.head, comparator);
+    }
+
+    private <T> Node<T> mergeSortNodeHandler(LinkedList<T> list, Node<T> h, Comparator<T> comparator) {
+        if(h == null || h.next == null) {
+            return h;
+        }
+
+        Node<T> middle = list.getMiddle(h);
+        Node<T> nextOfMiddle = middle.next;
+
+        middle.next = null;
+
+        Node<T> left = mergeSortNodeHandler(list, h, comparator);
+        Node<T> right = mergeSortNodeHandler(list, nextOfMiddle, comparator);
+
+        Node<T> sortedList = mergeList(left, right, comparator);
+        return sortedList;
+
+    }
+
+    private <T> Node<T> mergeList(Node<T> a, Node<T> b, Comparator<T> comparator) {
+        Node result = null;
+
+        if(a == null) {
+            return b;
+        }
+        if(b == null) {
+            return a;
+        }
+
+        if(comparator.compare(a.data,b.data) <= 0) {
+            result = a;
+            result.next = mergeList(a.next, b, comparator);
+        } else {
+            result = b;
+            result.next = mergeList(a, b.next, comparator);
+        }
+        return result;
+    }
+
+    public <T> void mergeSortArray(T[] array, int n, Comparator<T> comparator) {
         if(n < 2) {
             return;
         }
@@ -23,7 +67,7 @@ public class MergeSort {
         mergeArray(array, l, r, mid, n - mid, comparator);
     }
 
-    private static <T> void mergeArray(T[] a, T[] l, T[] r, int left, int right, Comparator<T> comparator) {
+    private <T> void mergeArray(T[] a, T[] l, T[] r, int left, int right, Comparator<T> comparator) {
         int i = 0, j = 0, k = 0;
         while (i < left && j < right) {
             if(comparator.compare(l[i],r[j]) <= 0) {
@@ -41,5 +85,7 @@ public class MergeSort {
         }
     }
 
-
+    public void setComparator(Comparator<T> c) {
+        this.comparator = c;
+    }
 }

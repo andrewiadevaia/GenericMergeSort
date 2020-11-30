@@ -2,15 +2,24 @@ import java.util.Comparator;
 
 public class Driver {
     public static void main(String[] args) {
-        LinkedList<Integer> list = new LinkedList();
-        list.add(10);
-        list.add(3);
-        list.add(1);
-        list.add(5);
-        list.add(7);
+        LinkedList<Integer> integerList = new LinkedList();
+        Comparator<Integer> integerComparator = Integer::compareTo;
 
-        list.printList();
+        integerList.add(10);
+        integerList.add(3);
+        integerList.add(5);
+        integerList.add(1);
+        integerList.add(7);
 
+        integerList.printList();
+
+        MergeSort.mergeSortList(integerList, integerComparator);
+
+        integerList.printList();
+        //using copyRange method
+        //LinkedList<Integer> subList = list.copyRange(0, list.getMiddleIndex()-1);
+        //subList.printList();
+        /*
         LinkedList<String> stringList = new LinkedList<>();
         stringList.add("catch");
         stringList.add("me");
@@ -27,5 +36,7 @@ public class Driver {
         carList.add(new Car("Alfa", 2008));
 
         //carList.printList();
+
+        */
     }
 }
