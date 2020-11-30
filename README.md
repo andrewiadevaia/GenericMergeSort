@@ -33,240 +33,50 @@
   <p align="center">
     Merge sort functionality for Generic Arrays and Linked Lists
     <br />
-    <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
-    ·
+    <br />    ·
     <a href="https://github.com/andrewiadevaia/GenericMergeSort/issues">Report Bug</a>
   </p>
 </p>
 
-
-
-<!-- TABLE OF CONTENTS -->
-<details open="open">
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">Getting Started</a>
-      <ul>
-        <li><a href="#built-with">Generic Arrays</a></li>
-        <li><a href="#built-with">Generic LinkedLists</a></li>
-      </ul>
-    </li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
-  </ol>
-</details>
-
 <!-- GETTING STARTED -->
 ## Getting Started
-
-"Like QuickSort, Merge Sort is a Divide and Conquer algorithm. It divides the input array into two halves, calls itself for the two halves, and then merges the two sorted halves."
+Instantiate a instance of the merge sort class.
+  ```java
+    MergeSort ms = new MergeSort();
+  ```
 
 ### Generic MergeSort for Array
 
-* Creating MergeSort Class
+* Create an Array
   ```java
-  import java.util.Comparator;
-  public class MergeSort {
-  
-  }
+     Double[] doubles = {1.23, 0.43, 4.13, 6.23, 9.1, 0.6};       
   ```
-The class itself does not need to be generic. Generic functionality will be implemented in the functions themself.
-
-* Implementing the mergeSortArray function
-The function takes 3 parameter a generic array, length of the array and a generic comparator instance.
+After the array is created you can use the Utils class and the instance of merge sort to sort the array.
   ```java
-      public static <T> void mergeSortArray(T[] array, int n, Comparator<T> comparator) {
-        if(n < 2) {
-            return;
-        }
-
-        int mid = n/2;
-        T l[] = (T[]) new Object[mid];
-        T r[] = (T[]) new Object[n - mid];
-
-        for (int i = 0; i < mid; i++) {
-            l[i] = array[i];
-        }
-        
-        for (int i = mid; i < n; i++) {
-            r[i - mid] = array[i];
-        }
-        
-        mergeSortArray(l, mid, comparator);
-        mergeSortArray(r, n - mid, comparator);
-        
-        mergeArray(array, l, r, mid, n - mid, comparator);
-       }
+     ms.setComparator(Util.doubleComparator());
+     ms.mergeSortArray(doubles, doubles.length);
   ```
-Checking to see if there is more than one element in the array. If there is not the function returns. Otherwise get the middle of the array.
-  ```java
-        if(n < 2) {
-            return;
-        }
-        
-        int mid = n/2;
-  ```
-  
-Create 2 sub arrays for the left side and right side.
-  ```java
-        T l[] = (T[]) new Object[mid];
-        T r[] = (T[]) new Object[n - mid];
-  ```
-A generic Type cannot be declared as the following because T's type is not known until runtime.
-  ```java
-  T arr[] = new T[size];
-  ```
-But if you create an object it can be casted as type T during runtime.
-  ```java
-  T arr[] = (T[]) new Object[Size];
-  ```
-Fill the sub arrays l[] and r[]
-  ```java
-        for (int i = 0; i < mid; i++) {
-            l[i] = array[i];
-        }
-        for (int i = mid; i < n; i++) {
-            r[i - mid] = array[i];
-        }  
-  ```
-Now onto recursively calling mergeSortArray until sub arrays are smallest possible case
-  ```java
-        mergeSortArray(l, mid, comparator);
-        mergeSortArray(r, n - mid, comparator);
-  ```
-                What this looks like...
-                     {10,6,8,5}
-                    /          \
-                   /            \
-                {10,6}         {8,5}
-               /      \       /     \
-              /        \     /       \
-            {10}       {6}  {8}      {5}
-            
-            
-Now we merge sub arrays, mid is the length of left sub array and n - mid is length of right sub array
-ex: if you have an array of 4 elements n=4 then, mid = 2 so left sub array would be elements 0-1. The right sub array
-length would be n(4) - mid(2) = 2. So the right sub array is dealing with elements 2-3
-  ```java
-  mergeArray(array, l, r, mid, n - mid, comparator);
-  ```
-              What this looks like...
-            {10}     {6}    {8}     {5}
-              \      /        \      /
-               \    /          \    /
-               {6,10}           {5,8}
-                  \                /
-                   \              /
-                    \            /
-                     \          /
-                      {5,6,8,10}
-                      
-
-
-Implement mergeArray function
-  ```java
-  private static <T> void mergeArray(T[] a, T[] l, T[] r, int left, int right, Comparator<T> comparator) {
-        int i = 0, j = 0, k = 0;
-        while (i < left && j < right) {
-            if(comparator.compare(l[i],r[j]) <= 0) {
-                a[k++] = l[i++];
-            } else {
-                a[k++] = r[j++];
-            }
-        }
-
-        while (i < left) {
-            a[k++] = l[i++];
-        }
-        while (j < right) {
-            a[k++] = r[j++];
-        }
-  ```
-  
-int i is the iterator for left sub array, j is for the right sub array and k is for the input array. The while loop is ran if both i and j are less than their sub array lengths.
-  ```java
-        int i = 0, j = 0, k = 0;
-        while (i < left && j < right) {  
-  ```
-
-Using the compare function from the comparator passed as a paramter to compare the genric values. Places the smaller value into the input array.
-  ```java
-  if(comparator.compare(l[i],r[j]) <= 0) {
-                a[k++] = l[i++];
-            } else {
-                a[k++] = r[j++];
-            }
-  ```
-Filling input array with left over values from sub array
-  ```java
-        while (i < left) {
-            a[k++] = l[i++];
-        }
-        while (j < right) {
-            a[k++] = r[j++];
-        }
-  ```
-
-
-Main Method Class
-  ```java
-      public static void main(String[] args) {
-        Integer[] arr = {9,8,7,6,5,4,3,2,1};
-        Comparator<Integer> integerComparator = (l, r) -> l.compareTo(r);
-        MergeSort.mergeSortArray(arr,arr.length,integerComparator);
-        printArray(arr);
-       }
-  ```
-This line here is creating a Comparator instance of type Integer. Using a lambda function to create its compare function.
-  ```java
-  Comparator<Integer> integerComparator = (l, r) -> l.compareTo(r);
-  ```
-A lambda in java works as parameter passed to expression
-  ```java
-  parameter -> expression
-  (parameter1, parameter2) -> expression
-  (parameter1, parameter2) -> { code block }
-  ```
-Since we are using Integer as our type it already has a compareTo method that can be used in the expression of lambda but, lets say we arent using a wrapper instead something
-like a car
-  ```java
-  public class Car {
-    private String Type;
-    private int Year;
-
-    public Car(String s, int t) {
-        Type = s;
-        Year = t;
-    }
-   }
-   ```
-All we need to do is just add compare methods for the car attributes to then pass into our lambda functions.
-  ```java
-    public int compareByYear(Car o) {
-            return this.Year - o.Year;
-    }
-    
-    public int compareByType(Car o) {
-            //since car Type is a String here you are using the string compareTo function
-            return this.Type.compareTo(o.Type);
-    }
-   ```
-Now you can write a generic comparator to use with merge sort
-  ```java
-  Comparator<Car> carComparator = (l, r) -> l.compareByType(r);
-  or
-  Comparator<Car> carComparator = (l, r) -> l.compareByYear(r);
-  ```
-Call the Merge Sort function now. There is no need to instantiate a MergeSort class becuase the methods are static. Call it just like...
-  ```java
-  MergeSort.mergeSortArray(array, array.length, typeComparator);
-  ```
-Then your all set. You can now MergeSort generic Arrays.
+Note the mergeSortArray method is being used here.
 
 ### Generic MergeSort for Linked List
 
-* Too be implemented
+* Create a LinkedList
+  ```java
+      LinkedList<Car> carList = new LinkedList<>();
+        carList.add(new Car("Honda", 2010));
+        carList.add(new Car("Tesla", 2020));
+        carList.add(new Car("Cadillac", 2015));
+        carList.add(new Car("Alfa", 2008));      
+  ```
+The after the list is created you can use the Utils class and instance of merge sort to sort the array.
+  ```java
+     ms.setComparator(Util.doubleComparator());
+     ms.mergeSortList(doubles, doubles.length);
+  ```
+Note the mergeSortList method is being used here.
+
+### Generic MergeSort for Linked List
+
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
