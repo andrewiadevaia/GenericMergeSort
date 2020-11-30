@@ -1,14 +1,14 @@
 import java.util.Comparator;
 
-public class MergeSort<T> {
+public class MergeSort {
 
-    private Comparator<T> comparator;
+    private Comparator comparator;
 
-    public <T> void mergeSortList(LinkedList<T> list, Comparator<T> comparator) {
-        list.head = mergeSortNodeHandler(list, list.head, comparator);
+    public <T> void mergeSortList(LinkedList<T> list) {
+        list.head = mergeSortNodeHandler(list, list.head);
     }
 
-    private <T> Node<T> mergeSortNodeHandler(LinkedList<T> list, Node<T> h, Comparator<T> comparator) {
+    private <T> Node<T> mergeSortNodeHandler(LinkedList<T> list, Node<T> h) {
         if(h == null || h.next == null) {
             return h;
         }
@@ -18,15 +18,15 @@ public class MergeSort<T> {
 
         middle.next = null;
 
-        Node<T> left = mergeSortNodeHandler(list, h, comparator);
-        Node<T> right = mergeSortNodeHandler(list, nextOfMiddle, comparator);
+        Node<T> left = mergeSortNodeHandler(list, h);
+        Node<T> right = mergeSortNodeHandler(list, nextOfMiddle);
 
-        Node<T> sortedList = mergeList(left, right, comparator);
+        Node<T> sortedList = mergeList(left, right);
         return sortedList;
 
     }
 
-    private <T> Node<T> mergeList(Node<T> a, Node<T> b, Comparator<T> comparator) {
+    private <T> Node<T> mergeList(Node<T> a, Node<T> b) {
         Node result = null;
 
         if(a == null) {
@@ -38,15 +38,15 @@ public class MergeSort<T> {
 
         if(comparator.compare(a.data,b.data) <= 0) {
             result = a;
-            result.next = mergeList(a.next, b, comparator);
+            result.next = mergeList(a.next, b);
         } else {
             result = b;
-            result.next = mergeList(a, b.next, comparator);
+            result.next = mergeList(a, b.next);
         }
         return result;
     }
 
-    public <T> void mergeSortArray(T[] array, int n, Comparator<T> comparator) {
+    public <T> void mergeSortArray(T[] array, int n) {
         if(n < 2) {
             return;
         }
@@ -62,12 +62,12 @@ public class MergeSort<T> {
             r[i - mid] = array[i];
         }
 
-        mergeSortArray(l, mid, comparator);
-        mergeSortArray(r, n - mid, comparator);
-        mergeArray(array, l, r, mid, n - mid, comparator);
+        mergeSortArray(l, mid);
+        mergeSortArray(r, n - mid);
+        mergeArray(array, l, r, mid, n - mid);
     }
 
-    private <T> void mergeArray(T[] a, T[] l, T[] r, int left, int right, Comparator<T> comparator) {
+    private <T> void mergeArray(T[] a, T[] l, T[] r, int left, int right) {
         int i = 0, j = 0, k = 0;
         while (i < left && j < right) {
             if(comparator.compare(l[i],r[j]) <= 0) {
@@ -85,7 +85,7 @@ public class MergeSort<T> {
         }
     }
 
-    public void setComparator(Comparator<T> c) {
+    public void setComparator(Comparator c) {
         this.comparator = c;
     }
 }
