@@ -62,22 +62,94 @@ Note the mergeSortArray method is being used here.
 
 * Create a LinkedList
   ```java
-      LinkedList<Car> carList = new LinkedList<>();
+        LinkedList<Car> carList = new LinkedList<>();
         carList.add(new Car("Honda", 2010));
         carList.add(new Car("Tesla", 2020));
         carList.add(new Car("Cadillac", 2015));
         carList.add(new Car("Alfa", 2008));      
   ```
-The after the list is created you can use the Utils class and instance of merge sort to sort the array.
+Then after the list is created you can use the Utils class and instance of merge sort to sort the array.
   ```java
      ms.setComparator(Util.doubleComparator());
      ms.mergeSortList(doubles, doubles.length);
   ```
 Note the mergeSortList method is being used here.
 
-### Generic MergeSort for Linked List
+### Multiple Lists or Arrays of different Types
+* Lets say you have
+  ```java
+        LinkedList<Integer> integerList = new LinkedList();
+        integerList.add(10);
+        integerList.add(3);
+        integerList.add(5);
+        integerList.add(1);
+        integerList.add(7);
+        
+        String[] strings = {"test", "tes", "te", "t"};
+  ```
+If you want to sort both its simple. Just set the comparator for the first case and call the sort method. Then change the comparator and call it again. Make sure
+you are calling the correct method for a list or array.
+  ```java
+        ms.setComparator(Util.carYearComparator());
+        ms.mergeSortList(carList);
 
+        carList.printList();
+        
+        ms.setComparator(Util.stringComparator());
+        ms.mergeSortArray(strings, strings.length);
 
+        printArray(strings);
+  ```
+
+### Custom Types
+* Custom types can be implemented simply. For example,
+  ```java
+        LinkedList<Car> carList = new LinkedList<>();
+        carList.add(new Car("Honda", 2010));
+        carList.add(new Car("Tesla", 2020));
+        carList.add(new Car("Cadillac", 2015));
+        carList.add(new Car("Alfa", 2008));
+  ```
+In order for this to work correctly with MergeSort you need to do two things.
+* Create comparison methods within the class for Utils to use.
+  ```java
+      //compare based on year
+    public int compareByYear(Car o) {
+        //using integer compare method because year is int
+        return this.Year - o.Year;
+    }
+
+    //compare based on car type
+    public int compareByType(Car o) {
+        //since car type is a String here you are using the string compareTo function
+        return this.Type.compareTo(o.Type);
+    }
+   ```
+ 
+ * Add a new comparator to the Util class
+  ```java
+  public class Util {
+    public static Comparator<String> stringComparator() {
+        return String::compareTo;
+    }
+
+    public static Comparator<Integer> integerComparator() {
+        return Integer::compareTo;
+    }
+
+    public static Comparator<Double> doubleComparator() {
+        return Double::compareTo;
+    }
+    //From car class
+    public static Comparator<Car> carYearComparator() {
+        return Car::compareByYear;
+    }
+    //From car class
+    public static Comparator<Car> carTypeComparator() {
+        return Car::compareByType;
+    }
+}
+  ```
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
